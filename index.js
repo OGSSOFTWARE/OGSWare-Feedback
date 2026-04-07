@@ -1,16 +1,16 @@
 import express from "express";
-const app = express();
-
-app.use(express.json());
-
 import dotenv from "dotenv";
-dotenv.config();
-
 import fs from "fs";
 import { Client, GatewayIntentBits } from "discord.js";
 import { renderFeedbackEmbed } from "./renderEmbed.js";
 import vouchCommand from "./vouch.js";
 import { handleSellAuthWebhook } from "./webhook.js";
+
+dotenv.config();
+
+// Express App (NUR EINMAL!)
+const app = express();
+app.use(express.json());
 
 // Load persistent counter
 const counterData = JSON.parse(fs.readFileSync("./counter.json", "utf8"));
@@ -42,15 +42,15 @@ client.saveCounter = () => {
 };
 
 client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}`);
+  console.log(`Logged in as ${client.user.tag}`);
 
-    client.user.setPresence({
-        activities: [{
-            name: "⭐ ogsware.com",
-            type: 3 // WATCHING
-        }],
-        status: "online"
-    });
+  client.user.setPresence({
+    activities: [{
+      name: "⭐ ogsware.com",
+      type: 3 // WATCHING
+    }],
+    status: "online"
+  });
 });
 
 // Slash command handler
@@ -72,17 +72,16 @@ client.on("interactionCreate", async interaction => {
   }
 });
 
-// Webhook server
-const app = express();
-app.use(express.json());
-
+// Webhook route (NUR HIER!)
 app.post("/sellauth/webhook", (req, res) => {
+  console.log("Webhook Body:", req.body);
   handleSellAuthWebhook(req, res, client);
   client.saveCounter();
 });
 
+// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Webhook running on port ${PORT}`));
 
-// Login
+// Login bot
 client.login(process.env.DISCORD_TOKEN);
