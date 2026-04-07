@@ -1,3 +1,8 @@
+app.post("/sellauth/webhook", (req, res) => {
+    console.log("Webhook Body:", req.body);
+    ...
+});
+
 import { renderDMEmbed } from "./dmEmbed.js";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
