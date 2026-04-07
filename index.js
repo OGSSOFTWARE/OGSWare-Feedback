@@ -8,7 +8,6 @@ dotenv.config();
 
 import fs from "fs";
 import { Client, GatewayIntentBits } from "discord.js";
-import express from "express";
 import { renderFeedbackEmbed } from "./renderEmbed.js";
 import vouchCommand from "./vouch.js";
 import { handleSellAuthWebhook } from "./webhook.js";
